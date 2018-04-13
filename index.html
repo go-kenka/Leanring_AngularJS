@@ -3,83 +3,200 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Renu's World</title>
+    <title>AngularJS</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
 </head>
 
-<body>
+<body ng-app="myApp" ng-controller="myController">
+    <br/>
     <div class="container">
-        <h1>Renu's World</h1>
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="container">
-                    <ul class="nav">
-                        <li class="active">
-                            <a href="#">Home</a>
-                        </li>
-                        <li>
-                            <a href="#">Services</a>
-                        </li>
-                        <li>
-                            <a href="#">Download</a>
-                        </li>
-                        <li>
-                            <a href="#">Blah Blah</a>
-                        </li>
-                    </ul>
+        <form class="form-inline">
+            <div id="input_control" class="form-group">
+                <label class="control-label" for="city">城市</label>
+                <input type="text" class="form-control" id="city" placeholder="请输入需要查询的城市" style="width: 300px" ng-model="cityNm" aria-describedby="inputError2Status"
+                    ng-change="textChange()" />
+
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span id="inputError2Status" class="sr-only">(error)</span>
+            </div>
+            <button class="btn btn-warning" ng-click="getData()">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询
+            </button>
+            <span style="color: red">{{error}}</span>
+        </form>
+        <hr/>
+
+        <div class="alert alert-success" role="alert">
+            <strong>城市：</strong>{{city}}&nbsp;&nbsp;&nbsp;&nbsp;
+            <strong>温度：</strong>{{wendu}}&nbsp;&nbsp;&nbsp;&nbsp;
+            <strong>空气质量：</strong>{{aqi}}
+        </div>
+
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>注意事项：</strong> {{ganmao}}
+        </div>
+        <!--未来5日天气-->
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">未来5日天气</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <th style="width: 172px;height: 37px;text-align: center">日期</th>
+                            <th style="width: 114px;height: 37px;text-align: center">风向</th>
+                            <th style="width: 153px;height: 37px;text-align: center">最高温度/℃</th>
+                            <th style="width: 154px;height: 37px;text-align: center">最低温度/℃</th>
+                            <th style="width: 88px;height: 37px;text-align: center">状况</th>
+                        </tr>
+                        <tr ng-repeat="it in forecasts">
+                            <td>{{it.date}}</td>
+                            <td>{{it.fengxiang}}</td>
+                            <td>{{it.high}}</td>
+                            <td>{{it.low}}</td>
+                            <td>{{it.type}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--昨日天气-->
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">昨日天气</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">风向:{{yesterday.fx}}</li>
+                    <li class="list-group-item">最高温度:{{yesterday.high}}</li>
+                    <li class="list-group-item">最低温度:{{yesterday.low}}</li>
+                    <li class="list-group-item">状况:{{yesterday.type}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            正在从服务器读取相关数据，请稍等。
+                        </p>
+                        <img id="progress" src="img/timg.gif" width="50" /> 正在加载中......
+                    </div>
+
                 </div>
             </div>
         </div>
-        <div class="hero-unit">
-        </div>
-        <div class="row">
-            <div class="span2">
-                <ul class="nav nav-list">
-                    <li class="nav-header"> Who are we?</li>
-                    <li class="active">
-                        <a href="#">Home</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">About Us</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact Us</a>
-                    </li>
-                    <li class="nav-header"> Our Friends</li>
-                    <li>
-                        <a href="#">Google</a>
-                    </li>
-                    <li>
-                        <a href="#">Blah Blah</a>
-                    </li>
-                    <li>
-                        <a href="#">More Blah Blah</a>
-                    </li>
-                    <li>
-                        <a href="#">And many more</a>
-                    </li>
-
-                </ul>
-
-            </div>
-            <div class="span8">
-            </div>
-            <div class="span2">
-            </div>
-        </div>
-        <hr>
-        <div class="footer">
-            <p>&copy; 2014</p>
-        </div>
-
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     </div>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    </div>
+    <script>
+        var weeks = new Array('星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六');
+        var now1 = new Date();
+        now1.setDate(now1.getDate() + 1);
+        var now2 = new Date();
+        now2.setDate(now2.getDate() + 2);
+        var now3 = new Date();
+        now3.setDate(now3.getDate() + 3);
+        var now4 = new Date();
+        now4.setDate(now4.getDate() + 4);
+        var base_url = "http://wthrcdn.etouch.cn/weather_mini?city=";
+        var app = angular.module('myApp', []);
+
+        app.service('tempConvert', function () {
+            this.myFunc = function (x) {
+                return x+"℃";
+            }
+        });
+
+        app.controller('myController', function ($scope, $timeout, $interval, $http, tempConvert) {
+
+            // 模态窗口开
+            $('#myModal').modal('show');
+
+            //项目初始化模拟网络耗时操作
+            $timeout(function () {
+                // 初始化城市
+                $scope.cityNm = '北京';
+                // 获取天气数据
+                $scope.getData();
+                // 模态窗口关
+                $('#myModal').modal('hide');
+            }, 2000);
+
+
+            //时间间隔 半个小时刷新一次
+            $interval(function () {
+                $scope.getData();
+            }, 1800000);
+
+            // 文本框文本改变事件
+            $scope.textChange = function () {
+                var error = $scope.error;
+                if (error != '') {
+                    $scope.error = '';
+                    $("#input_control").removeClass("has-error");
+                    $("#input_control").removeClass("has-feedback");
+                }
+            }
+
+            // 获取天气内容
+            $scope.getData = function () {
+                // 模态窗口开
+                $('#myModal').modal('show');
+
+                // 判断当前输入城市是否为空
+                var cityNm = $scope.cityNm;
+                if (cityNm == '') {
+                    $scope.error = '请输入城市名称！';
+                    $("#input_control").addClass("has-error");
+                    $("#input_control").addClass("has-feedback");
+                    return;
+                }
+
+                // 访问服务器
+                var promise = $http({
+                    method: 'GET',
+                    url: base_url + $scope.cityNm,
+                });
+
+                // 获取当前response的内容
+                promise.then(function success(response) {
+                    if (response != null && response.data.status == '1000') {
+                        $scope.city = response.data.data.city;
+                        $scope.wendu = tempConvert(response.data.data.wendu);
+                        $scope.ganmao = response.data.data.ganmao;
+                        $scope.aqi = response.data.data.aqi;
+                        $scope.yesterday = response.data.data.yesterday;
+                        $scope.forecasts = response.data.data.forecast;
+                    } else {
+                        $scope.error = '没有查询到相应的天气！';
+                        $("#input_control").addClass("has-error");
+                        $("#input_control").addClass("has-feedback");
+                    }
+
+                    // 模态窗口关
+                    $('#myModal').modal('hide');
+                }, function error(err) {
+                    $scope.error = '错误码:' + err.status + '\r\n内容:' + err.statusText;
+                    // 模态窗口关
+                    $('#myModal').modal('hide');
+                });
+            }
+        });
+
+    </script>
 </body>
 
 </html>
