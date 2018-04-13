@@ -3,83 +3,106 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Renu's World</title>
+    <title>AngularJS</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
 </head>
 
 <body>
+    <br/>
     <div class="container">
-        <h1>Renu's World</h1>
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="container">
-                    <ul class="nav">
-                        <li class="active">
-                            <a href="#">Home</a>
-                        </li>
-                        <li>
-                            <a href="#">Services</a>
-                        </li>
-                        <li>
-                            <a href="#">Download</a>
-                        </li>
-                        <li>
-                            <a href="#">Blah Blah</a>
-                        </li>
-                    </ul>
+        <div ng-app="myApp" ng-controller="myController">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="city">城市</label>
+                    <input type="text" class="form-control" id="city" placeholder="北京" style="width: 300px" ng-model="cityNm" />
                 </div>
-            </div>
-        </div>
-        <div class="hero-unit">
-        </div>
-        <div class="row">
-            <div class="span2">
-                <ul class="nav nav-list">
-                    <li class="nav-header"> Who are we?</li>
-                    <li class="active">
-                        <a href="#">Home</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">About Us</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact Us</a>
-                    </li>
-                    <li class="nav-header"> Our Friends</li>
-                    <li>
-                        <a href="#">Google</a>
-                    </li>
-                    <li>
-                        <a href="#">Blah Blah</a>
-                    </li>
-                    <li>
-                        <a href="#">More Blah Blah</a>
-                    </li>
-                    <li>
-                        <a href="#">And many more</a>
-                    </li>
+                <button class="btn" ng-click="getData()">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询
+                </button>
 
-                </ul>
+            </form>
+            <hr/>
 
+            <span>城市：{{city}}</span>
+            <span>温度：{{wendu}}</span>
+            <span>AQI：{{aqi}}</span>
+            <hr/>
+            <span>提示：{{ganmao}}</span>
+            <hr/>
+            <h3>未来5日天气</h3>
+            <hr/>
+            <div class="">
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr style="background-color: darkorange;">
+                            <th style="width: 172px;height: 37px;text-align: center">日期</th>
+                            <th style="width: 258px;height: 37px;text-align: center">风力</th>
+                            <th style="width: 114px;height: 37px;text-align: center">风向</th>
+                            <th style="width: 153px;height: 37px;text-align: center">最高温度</th>
+                            <th style="width: 154px;height: 37px;text-align: center">最低温度</th>
+                            <th style="width: 88px;height: 37px;text-align: center">状况</th>
+                        </tr>
+                        <tr ng-repeat="it in forecasts">
+                            <td>{{it.date}}</td>
+                            <td>{{it.fengli}}</td>
+                            <td>{{it.fengxiang}}</td>
+                            <td>{{it.high}}</td>
+                            <td>{{it.low}}</td>
+                            <td>{{it.type}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="span8">
-            </div>
-            <div class="span2">
-            </div>
+            <h3>昨日天气
+                <span>{{yesterday.date}}</span>
+            </h3>
+            <ul class="list-group">
+                <li class="list-group-item">风向:{{yesterday.fx}}</li>
+                <li class="list-group-item">最高温度:{{yesterday.high}}</li>
+                <li class="list-group-item">最低温度:{{yesterday.low}}</li>
+                <li class="list-group-item">状况:{{yesterday.type}}</li>
+            </ul>
         </div>
-        <hr>
-        <div class="footer">
-            <p>&copy; 2014</p>
-        </div>
-
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
     </div>
+    <script>
+        var base_url = "http://wthrcdn.etouch.cn/weather_mini?city=";
+        var app = angular.module('myApp', []);
+        app.controller('myController', function ($scope, $http) {
+            $scope.cityNm = '北京';
+            $scope.forecasts = [
+            ]
+            
+            $scope.getData = function () {
+                var promise = $http({
+                    method: 'GET',
+                    url: base_url + $scope.cityNm,
+                });
+
+                //第一中写法
+                promise.then(function success(response) {
+                    if (response != null && response.data.status == '1000') {
+                        $scope.city = response.data.data.city;
+                        $scope.wendu = response.data.data.wendu + "℃";
+                        $scope.ganmao = response.data.data.ganmao;
+                        $scope.aqi = response.data.data.aqi;
+                        $scope.yesterday = response.data.data.yesterday;
+                        $scope.forecasts = response.data.data.forecast;
+                    } else {
+                        alert("出错了");
+                    }
+                }, function error(err) {
+                    alert(err.status);
+                });
+            }
+
+
+        });
+
+    </script>
 </body>
 
 </html>
