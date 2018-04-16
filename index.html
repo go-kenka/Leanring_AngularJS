@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AngularJS</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
@@ -191,15 +193,15 @@
             }
         });
 
-        app.controller('myController1', function ($scope, $route) { 
-            $scope.$route = $route; 
-            $scope.test ='這是一個測試路由的頁面';
-            });
+        app.controller('myController1', function ($scope, $route) {
+            $scope.$route = $route;
+            $scope.test = '這是一個測試路由的頁面';
+        });
 
         // 前端路由
         app.config(['$routeProvider', function ($routeProvider) {
             $routeProvider
-                .when('/', { templateUrl: 'weather.html'})
+                .when('/', { templateUrl: 'weather.html' })
                 .when('/luyou', { templateUrl: 'luyou.html', controller: 'myController1' })
                 .otherwise({ redirectTo: '/' });
         }]);
