@@ -1,0 +1,55 @@
+<div class="alert alert-success" role="alert">
+    <strong>城市：</strong>
+    <span style="color: darkorange" ng-bind="city"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <strong>温度：</strong>
+    <span style="color: darkorange" ng-bind="wendu"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <strong>空气质量：</strong>
+    <span style="color: darkorange" ng-bind="aqi">
+</div>
+
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>注意事项：</strong> {{ganmao}}
+</div>
+<!--未来5日天气-->
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">未来5日天气</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th style="width: 172px;height: 37px;text-align: center;background-color: darkorange">日期</th>
+                    <th style="width: 114px;height: 37px;text-align: center;background-color: darkorange">风向</th>
+                    <th style="width: 153px;height: 37px;text-align: center;background-color: darkorange">最高温度/℃</th>
+                    <th style="width: 154px;height: 37px;text-align: center;background-color: darkorange">最低温度/℃</th>
+                    <th style="width: 88px;height: 37px;text-align: center;background-color: darkorange">状况</th>
+                </tr>
+                <tr ng-repeat="it in forecasts">
+                    <td>{{it.date}}</td>
+                    <td>{{it.fengxiang}}</td>
+                    <td>{{it.high}}</td>
+                    <td>{{it.low}}</td>
+                    <td>{{it.type}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--昨日天气-->
+<div class="panel panel-danger">
+    <div class="panel-heading">
+        <h3 class="panel-title">昨日天气</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item">风向:{{yesterday.fx}}</li>
+            <li class="list-group-item">最高温度:{{yesterday.high}}</li>
+            <li class="list-group-item">最低温度:{{yesterday.low}}</li>
+            <li class="list-group-item">状况:{{yesterday.type}}</li>
+        </ul>
+    </div>
+</div>

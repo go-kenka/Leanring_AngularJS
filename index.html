@@ -9,97 +9,61 @@
 </head>
 
 <body ng-app="myApp" ng-controller="myController">
+
     <br/>
     <div class="container">
-        <form class="form-inline">
-            <div id="input_control" class="form-group">
-                <label class="control-label" for="city">城市</label>
-                <input type="text" class="form-control" id="city" placeholder="请输入需要查询的城市" style="width: 300px" ng-model="cityNm" aria-describedby="inputError2Status"
-                    ng-change="textChange()" />
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                        aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">AngularJS</a>
+                </div>
 
-                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-                <span id="inputError2Status" class="sr-only">(error)</span>
-            </div>
-            <button class="btn btn-warning" ng-click="getData()">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询
-            </button>
-            <span style="color: red">{{error}}</span>
-        </form>
-        <hr/>
-
-        <div class="alert alert-success" role="alert">
-            <strong>城市：</strong>{{city}}&nbsp;&nbsp;&nbsp;&nbsp;
-            <strong>温度：</strong>{{wendu}}&nbsp;&nbsp;&nbsp;&nbsp;
-            <strong>空气质量：</strong>{{aqi}}
-        </div>
-
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <strong>注意事项：</strong> {{ganmao}}
-        </div>
-        <!--未来5日天气-->
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">未来5日天气</h3>
-            </div>
-            <div class="panel-body">
-                <table class="table table-bordered table-striped">
-                    <tbody>
-                        <tr>
-                            <th style="width: 172px;height: 37px;text-align: center">日期</th>
-                            <th style="width: 114px;height: 37px;text-align: center">风向</th>
-                            <th style="width: 153px;height: 37px;text-align: center">最高温度/℃</th>
-                            <th style="width: 154px;height: 37px;text-align: center">最低温度/℃</th>
-                            <th style="width: 88px;height: 37px;text-align: center">状况</th>
-                        </tr>
-                        <tr ng-repeat="it in forecasts">
-                            <td>{{it.date}}</td>
-                            <td>{{it.fengxiang}}</td>
-                            <td>{{it.high}}</td>
-                            <td>{{it.low}}</td>
-                            <td>{{it.type}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!--昨日天气-->
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                <h3 class="panel-title">昨日天气</h3>
-            </div>
-            <div class="panel-body">
-                <ul class="list-group">
-                    <li class="list-group-item">风向:{{yesterday.fx}}</li>
-                    <li class="list-group-item">最高温度:{{yesterday.high}}</li>
-                    <li class="list-group-item">最低温度:{{yesterday.low}}</li>
-                    <li class="list-group-item">状况:{{yesterday.type}}</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">提示</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            正在从服务器读取相关数据，请稍等。
-                        </p>
-                        <img id="progress" src="img/timg.gif" width="50" /> 正在加载中......
-                    </div>
-
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="#/">天气
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#/luyou">路由</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left" name="myForm" novalidate>
+                        <div id="input_control" class="form-group">
+                            <input type="text" class="form-control" id="cityNm" name="cityNm" placeholder="请输入需要查询的城市" style="width: 300px" ng-model="cityNm"
+                                ng-change="textChange()" required/>
+                        </div>
+                        <button class="btn btn-warning" ng-click="getData()" ng-disabled="myForm.cityNm.$dirty && myForm.cityNm.$invalid">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询
+                        </button>
+                        <span style="color:red" ng-show="myForm.cityNm.$dirty && myForm.cityNm.$invalid">
+                            <span ng-show="myForm.cityNm.$error.required">城市名是必须的。</span>
+                        </span>
+                        <span style="color: red">{{error}}</span>
+                    </form>
                 </div>
             </div>
+        </nav>
+
+        <div ng-view>
+
         </div>
+        <hr/>
     </div>
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular-route/1.3.13/angular-route.js"></script>
     </div>
     <script>
         var weeks = new Array('星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六');
@@ -111,19 +75,63 @@
         now3.setDate(now3.getDate() + 3);
         var now4 = new Date();
         now4.setDate(now4.getDate() + 4);
-        var base_url = "http://wthrcdn.etouch.cn/weather_mini?city=";
-        var app = angular.module('myApp', []);
 
-        app.service('tempConvert', function () {
-            this.myFunc = function (x) {
-                return x+"℃";
+        // 创建模块
+        var app = angular.module('myApp', ['ngRoute']);
+
+        // 创建 value 对象 "url" 并传递数据
+        app.value("url", "http://wthrcdn.etouch.cn/weather_mini?city=");
+
+        // factory创建字符串连接方法
+        app.factory('StrService', function () {
+            var factory = {};
+
+            factory.connection = function (a, b) {
+                return a + b
+            }
+            return factory;
+        });
+
+        // provider创建字符串连接方法
+        app.config(function ($provide) {
+            $provide.provider('AqiService', function () {
+                this.$get = function () {
+                    var factory = {};
+
+                    factory.aqi = function (a) {
+                        // aqi无数据的情况
+                        if (a == null) {
+                            return '没有相关信息';
+                        }
+                        // 判断优良差
+                        if (a < 30) {
+                            return a + ' ' + "优";
+                        } else if (a > 30 && a < 100) {
+                            return a + ' ' + "良";
+                        } else {
+                            return a + ' ' + "差";
+                        }
+                    }
+                    return factory;
+                };
+            });
+        });
+
+        // 自定义service
+        app.service('myService', function (StrService, AqiService) {
+            // 温度处理
+            this.wenduFunc = function (wendu) {
+                return StrService.connection(wendu, "℃");
+            }
+            // aqi处理
+            this.aqiFunc = function (aqi) {
+                return AqiService.aqi(aqi);
             }
         });
 
-        app.controller('myController', function ($scope, $timeout, $interval, $http, tempConvert) {
-
-            // 模态窗口开
-            $('#myModal').modal('show');
+        app.controller('myController', function ($scope, $route, $timeout, $interval, $http, myService, url) {
+            // 
+            $scope.$route = $route;
 
             //项目初始化模拟网络耗时操作
             $timeout(function () {
@@ -131,9 +139,7 @@
                 $scope.cityNm = '北京';
                 // 获取天气数据
                 $scope.getData();
-                // 模态窗口关
-                $('#myModal').modal('hide');
-            }, 2000);
+            }, 1000);
 
 
             //时间间隔 半个小时刷新一次
@@ -147,55 +153,56 @@
                 if (error != '') {
                     $scope.error = '';
                     $("#input_control").removeClass("has-error");
-                    $("#input_control").removeClass("has-feedback");
                 }
             }
 
             // 获取天气内容
             $scope.getData = function () {
-                // 模态窗口开
-                $('#myModal').modal('show');
-
                 // 判断当前输入城市是否为空
                 var cityNm = $scope.cityNm;
                 if (cityNm == '') {
                     $scope.error = '请输入城市名称！';
                     $("#input_control").addClass("has-error");
-                    $("#input_control").addClass("has-feedback");
                     return;
                 }
 
                 // 访问服务器
                 var promise = $http({
                     method: 'GET',
-                    url: base_url + $scope.cityNm,
+                    url: url + $scope.cityNm,
                 });
 
                 // 获取当前response的内容
                 promise.then(function success(response) {
                     if (response != null && response.data.status == '1000') {
                         $scope.city = response.data.data.city;
-                        $scope.wendu = tempConvert.myFunc(response.data.data.wendu);
+                        $scope.wendu = myService.wenduFunc(response.data.data.wendu);
                         $scope.ganmao = response.data.data.ganmao;
-                        $scope.aqi = response.data.data.aqi;
+                        $scope.aqi = myService.aqiFunc(response.data.data.aqi);
                         $scope.yesterday = response.data.data.yesterday;
                         $scope.forecasts = response.data.data.forecast;
                     } else {
                         $scope.error = '没有查询到相应的天气！';
                         $("#input_control").addClass("has-error");
-                        $("#input_control").addClass("has-feedback");
                     }
-
-                    
                 }, function error(err) {
                     $scope.error = '错误码:' + err.status + '\r\n内容:' + err.statusText;
                 });
-
-                // 模态窗口关
-                $('#myModal').modal('hide');
             }
         });
 
+        app.controller('myController1', function ($scope, $route) { 
+            $scope.$route = $route; 
+            $scope.test ='這是一個測試路由的頁面';
+            });
+
+        // 前端路由
+        app.config(['$routeProvider', function ($routeProvider) {
+            $routeProvider
+                .when('/', { templateUrl: 'weather.html'})
+                .when('/luyou', { templateUrl: 'luyou.html', controller: 'myController1' })
+                .otherwise({ redirectTo: '/' });
+        }]);
     </script>
 </body>
 
