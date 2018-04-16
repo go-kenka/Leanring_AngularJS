@@ -175,7 +175,7 @@
                 promise.then(function success(response) {
                     if (response != null && response.data.status == '1000') {
                         $scope.city = response.data.data.city;
-                        $scope.wendu = tempConvert(response.data.data.wendu);
+                        $scope.wendu = tempConvert.myFunc(response.data.data.wendu);
                         $scope.ganmao = response.data.data.ganmao;
                         $scope.aqi = response.data.data.aqi;
                         $scope.yesterday = response.data.data.yesterday;
@@ -186,13 +186,13 @@
                         $("#input_control").addClass("has-feedback");
                     }
 
-                    // 模态窗口关
-                    $('#myModal').modal('hide');
+                    
                 }, function error(err) {
                     $scope.error = '错误码:' + err.status + '\r\n内容:' + err.statusText;
-                    // 模态窗口关
-                    $('#myModal').modal('hide');
                 });
+
+                // 模态窗口关
+                $('#myModal').modal('hide');
             }
         });
 
